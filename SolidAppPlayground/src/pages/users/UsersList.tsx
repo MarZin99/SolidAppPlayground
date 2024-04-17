@@ -4,8 +4,14 @@ import {
   flexRender,
   getCoreRowModel,
 } from "@tanstack/solid-table";
+import { User } from "../../models/user.model";
 
-export default function UsersList() {
+export interface UsersListProps {
+  users: User[];
+}
+
+export default function UsersList({ users }: UsersListProps) {
+  console.log(users);
   const columns = [
     {
       accessorKey: "id",
@@ -30,7 +36,7 @@ export default function UsersList() {
 
   const table = createSolidTable({
     columns,
-    data,
+    data: users,
     getCoreRowModel: getCoreRowModel(),
   });
 
