@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SolidAppPlayground.Data;
 using SolidAppPlayground.Interfaces;
 using SolidAppPlayground.Models;
-using SQLitePCL;
 
 namespace SolidAppPlayground.Repository
 {
@@ -14,9 +12,16 @@ namespace SolidAppPlayground.Repository
         {
             _context = context;
         }
-        public Task<List<User>> GetAllAsync()
+        public async Task<List<User>> GetAllAsync()
         {
-            return _context.Users.ToListAsync();
+            return await _context.Users.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<User> CreateAsync(User user) 
+        {
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
 
       

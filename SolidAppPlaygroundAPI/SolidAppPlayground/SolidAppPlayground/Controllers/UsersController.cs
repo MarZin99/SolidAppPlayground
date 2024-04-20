@@ -30,28 +30,22 @@ namespace SolidAppPlayground.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserDto>>> GetAll()
+        public async Task<ActionResult> GetAll()
         {
             var users = await _userRepository.GetAllAsync();
 
             var dupa = users;
             var usersDto = users.Select(x => x.ToUserDto()).ToList();
 
-            return usersDto;
+            return Ok(usersDto);
         }
 
         [HttpPut]
-        public async Task<ActionResult<List<User>>> AddUser(User newUser)
+        public async Task<ActionResult> AddUser(User newUser)
         {
-            if(newUser != null)
-            {
-                await _context.Users.AddAsync(newUser);
-                await _context.SaveChangesAsync();
-                return Ok(await _userRepository.GetAllAsync());
+            await _userRepository.CreateAsync(newUser);
 
-            }
-
-            return BadRequest("Object instance not set 12");
+            return Ok(newUser);
         }
 
 

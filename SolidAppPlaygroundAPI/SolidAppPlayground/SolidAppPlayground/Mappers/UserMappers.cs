@@ -13,7 +13,6 @@ namespace SolidAppPlayground.Mappers
                 Id = user.Id,
                 Name = user.Name,
                 NickName = user.NickName,
-
             };
         }
     }

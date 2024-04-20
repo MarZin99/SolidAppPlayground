@@ -11,7 +11,6 @@ export interface UsersListProps {
 }
 
 export default function UsersList({ users }: UsersListProps) {
-  console.log(users);
   const columns = [
     {
       accessorKey: "id",
@@ -32,7 +31,6 @@ export default function UsersList({ users }: UsersListProps) {
       cell: (props: any) => <p>{props.getValue()}</p>,
     },
   ];
-  const data = [{ id: "1", name: "Januszk", nickName: "JanuszekKox12" }];
 
   const table = createSolidTable({
     columns,
