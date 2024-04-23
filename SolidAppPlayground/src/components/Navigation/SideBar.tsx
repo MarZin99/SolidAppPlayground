@@ -3,7 +3,10 @@ import { AiFillFire } from "solid-icons/ai";
 
 export default function SideBar() {
   return (
-    <div class="h-full" style={{ width: "120px" }}>
+    <div
+      class="h-full w-32 rounded-xl"
+      style={{ "background-color": "var(--primary-light-color)" }}
+    >
       <div class="flex items-center">
         <AiFillFire size="30px" color="red" />
         <div class="text-2xl">FireApp</div>

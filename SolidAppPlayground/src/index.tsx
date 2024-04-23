@@ -28,7 +28,7 @@ const App = (props: any) => (
     <div>
       <SideBar />
     </div>
-    <div class="h-full flex-grow">{props.children}</div>
+    <div class="h-full flex-grow m-2">{props.children}</div>
   </div>
 );
 

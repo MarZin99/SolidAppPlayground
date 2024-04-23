@@ -12,13 +12,13 @@ export default function UsersPage() {
   const [users] = createResource(fetchUser);
 
   return (
-    <div class="h-full w-full bg-green-500">
-      <Show when={!users.loading} fallback={<p>dupsko</p>}>
-        <UsersList users={users.latest as User[]} />
-        Users Page taht is rendered out thtere
-        <br /> and this is user form
-        <UserForm />
+    <>
+      <Show when={!users.loading} fallback={<p>Loading</p>}>
+        <div class="grid grid-cols-2 gap-3 w-full h-full">
+          <UsersList users={users.latest as User[]} />
+          <UserForm />
+        </div>
       </Show>
-    </div>
+    </>
   );
 }
