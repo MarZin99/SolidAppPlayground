@@ -19,11 +19,12 @@
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
+    "@modular-forms/solid": "^0.20.0",
     "@solidjs/router": "^0.13.2",
     "@tanstack/solid-table": "^8.16.0",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.8.11",
-    "solid-js-form": "^0.1.8",
+    "valibot": "^0.30.0",
     "yup": "^1.4.0"
   }
 }

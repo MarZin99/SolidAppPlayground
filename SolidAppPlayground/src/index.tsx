@@ -3,9 +3,9 @@
 import "./index.css";
 import { render } from "solid-js/web";
 import { Route, Router } from "@solidjs/router";
-import { NotFoundPage } from "./components/Navigation/NotFoundPage";
+import { NotFoundPage } from "./components/navigation/NotFoundPage";
 import { createSignal, lazy } from "solid-js";
-import SideBar from "./components/Navigation/SideBar";
+import SideBar from "./components/navigation/SideBar";
 
 const Users = lazy(() => import("./pages/users/UsersPage"));
 const Home = lazy(() => import("./pages/home/HomePage"));
