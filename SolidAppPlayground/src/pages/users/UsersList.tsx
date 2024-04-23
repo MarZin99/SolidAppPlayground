@@ -7,12 +7,14 @@ import {
 import { User } from "../../models/user.model";
 import { FiEdit } from "solid-icons/fi";
 import { IoPersonAddSharp } from "solid-icons/io";
+import { createEffect, createSignal } from "solid-js";
 
 export interface UsersListProps {
   users: User[];
+  onSelect: (user: User) => void;
 }
 
-export default function UsersList({ users }: UsersListProps) {
+export default function UsersList(props: UsersListProps) {
   const columns = [
     {
       accessorKey: "id",
@@ -46,8 +48,19 @@ export default function UsersList({ users }: UsersListProps) {
 
   const table = createSolidTable({
     columns,
-    data: users,
+    data: props.users,
+    enableMultiRowSelection: false,
+    enableRowSelection: true,
     getCoreRowModel: getCoreRowModel(),
+  });
+
+  createEffect(() => {
+    props.onSelect(
+      props.users[
+        parseInt(table.getSelectedRowModel().rows.map((x) => x.id)[0])
+      ]
+    );
+    //To refactor 1
   });
 
   return (
@@ -72,11 +85,15 @@ export default function UsersList({ users }: UsersListProps) {
           </tr>
         ))}
         {table.getRowModel().rows.map((row) => (
-          <tr>
+          <tr onClick={row.getToggleSelectedHandler()}>
             {row.getVisibleCells().map((cell) => (
               <td
                 class="px-2 border-b-gray-300 border-b-2 pt-1"
-                style={{ "background-color": "var(--table-row" }}
+                style={{
+                  "background-color": row.getIsSelected()
+                    ? "lightgrey"
+                    : "var(--table-row)",
+                }}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>

@@ -6,6 +6,7 @@ import { Route, Router } from "@solidjs/router";
 import { NotFoundPage } from "./components/navigation/NotFoundPage";
 import { createSignal, lazy } from "solid-js";
 import SideBar from "./components/navigation/SideBar";
+import { UsersProvider } from "./hooks/userRESTApiHook";
 
 const Users = lazy(() => import("./pages/users/UsersPage"));
 const Home = lazy(() => import("./pages/home/HomePage"));
@@ -34,11 +35,13 @@ const App = (props: any) => (
 
 render(
   () => (
-    <Router root={App}>
-      <Route path="/" component={Home} />
-      <Route path="/users" component={Users} />
-      <Route path="*404" component={NotFoundPage} />
-    </Router>
+    <UsersProvider baseURL="https://localhost:7199/api/user">
+      <Router root={App}>
+        <Route path="/" component={Home} />
+        <Route path="/users" component={Users} />
+        <Route path="*404" component={NotFoundPage} />
+      </Router>
+    </UsersProvider>
   ),
   root!
 );
