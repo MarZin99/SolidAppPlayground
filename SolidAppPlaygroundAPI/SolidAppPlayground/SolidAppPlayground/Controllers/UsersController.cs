@@ -40,8 +40,8 @@ namespace SolidAppPlayground.Controllers
             return Ok(usersDto);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> AddUser(User newUser)
+        [HttpPost]
+        public async Task<ActionResult> AddUser([FromBody]User newUser)
         {
             await _userRepository.CreateAsync(newUser);
 
