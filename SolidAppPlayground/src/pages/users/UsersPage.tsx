@@ -1,9 +1,8 @@
-import { Show, createEffect, createResource, createSignal } from "solid-js";
+import { Show, createResource, createSignal } from "solid-js";
 import UsersList from "./UsersList";
 import { User } from "../../models/user.model";
 import UserForm from "./UserForm";
-import { UserFormType } from "../../form-types/user-form.type";
-import { UsersProvider, useUsers } from "../../hooks/userRESTApiHook";
+import { useUsers } from "../../hooks/userRESTApiHook";
 
 export default function UsersPage() {
   const { items, add, remove, edit, refetch } = useUsers();
@@ -11,19 +10,23 @@ export default function UsersPage() {
   const [users] = createResource(items);
 
   const [selectedUser, setSelectedUser] = createSignal<User | undefined>();
-
-  var onUserCreate = function (values: UserFormType) {};
-
-  // createEffect(() => {
-  //   console.log(selectedUser());
-  // });
+  const [addNew, setAddNew] = createSignal<boolean>(false);
 
   return (
     <Show when={!users.loading} fallback={<p>Loading</p>}>
       <div class="grid grid-cols-2 gap-3 w-full h-full">
-        <UsersList users={users.latest as User[]} onSelect={setSelectedUser} />
-        <Show when={selectedUser()}>
-          <UserForm user={selectedUser()} onCreate={add} />
+        <UsersList
+          users={users.latest as User[]}
+          onSelect={setSelectedUser}
+          onAddNew={setAddNew}
+        />
+        <Show when={selectedUser() || addNew()}>
+          <UserForm
+            user={selectedUser()}
+            setUser={setSelectedUser}
+            onAddNew={setAddNew}
+            onAdd={add}
+          />
         </Show>
       </div>
     </Show>

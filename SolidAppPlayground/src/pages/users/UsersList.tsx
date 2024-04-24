@@ -1,17 +1,16 @@
 import {
-  TableOptions,
   createSolidTable,
   flexRender,
   getCoreRowModel,
 } from "@tanstack/solid-table";
 import { User } from "../../models/user.model";
-import { FiEdit } from "solid-icons/fi";
 import { IoPersonAddSharp } from "solid-icons/io";
 import { createEffect, createSignal } from "solid-js";
 
 export interface UsersListProps {
   users: User[];
   onSelect: (user: User) => void;
+  onAddNew: (bool: boolean) => void;
 }
 
 export default function UsersList(props: UsersListProps) {
@@ -19,30 +18,26 @@ export default function UsersList(props: UsersListProps) {
     {
       accessorKey: "id",
       header: "Id",
-      cell: (props: any) => <p>{props.getValue()}</p>,
+      cell: (properties: any) => <p>{properties.getValue()}</p>,
     },
     {
       accessorKey: "name",
       header: "Name",
-      cell: (props: any) => <p>{props.getValue()}</p>,
+      cell: (properties: any) => <p>{properties.getValue()}</p>,
     },
     {
       accessorKey: "nickName",
       header: "Nickname",
-      cell: (props: any) => <p>{props.getValue()}</p>,
+      cell: (properties: any) => <p>{properties.getValue()}</p>,
     },
     {
       accessorKey: "edit",
-      header: (props: any) => (
-        <p class="hover:cursor-pointer">
+      header: (properties: any) => (
+        <p class="hover:cursor-pointer" onClick={() => props.onAddNew(true)}>
           <IoPersonAddSharp />
         </p>
       ),
-      cell: (props: any) => (
-        <p class="hover:cursor-pointer">
-          <FiEdit />
-        </p>
-      ),
+      cell: (properties: any) => <p></p>,
     },
   ];
 
@@ -85,16 +80,17 @@ export default function UsersList(props: UsersListProps) {
           </tr>
         ))}
         {table.getRowModel().rows.map((row) => (
-          <tr onClick={row.getToggleSelectedHandler()}>
+          <tr
+            onClick={row.getToggleSelectedHandler()}
+            class="hover:cursor-pointer hover:!bg-gray-300"
+            style={{
+              "background-color": row.getIsSelected()
+                ? "lightgrey"
+                : "var(--table-row)",
+            }}
+          >
             {row.getVisibleCells().map((cell) => (
-              <td
-                class="px-2 border-b-gray-300 border-b-2 pt-1"
-                style={{
-                  "background-color": row.getIsSelected()
-                    ? "lightgrey"
-                    : "var(--table-row)",
-                }}
-              >
+              <td class=" px-2 border-b-gray-300 border-b-2 pt-1">
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}

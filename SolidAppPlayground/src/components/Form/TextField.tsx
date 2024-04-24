@@ -19,10 +19,10 @@ export default function TextField(props: TextFieldProps) {
   const [, inputProps] = splitProps(props, ["value", "label", "error"]);
 
   return (
-    <div class=" border-8 border-cyan-400 w-fit">
-      <div>
+    <div class="w-fit mb-2">
+      <div class="flex flex-col">
         {props.label && (
-          <label for={props.name}>
+          <label for={props.name} class="text-xs font-bold">
             {props.label} {props.required && <span>*</span>}
           </label>
         )}
@@ -31,6 +31,7 @@ export default function TextField(props: TextFieldProps) {
           id={props.name}
           value={props.value || ""}
           aria-invalid={!!props.error}
+          class="bg-gray-200 px-2 rounded-md border-2 border-gray-300"
         />
         {props.error && <div id={`${props.name}-error`}>{props.error}</div>}
       </div>

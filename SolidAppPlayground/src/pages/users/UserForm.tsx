@@ -1,68 +1,74 @@
 import TextField from "../../components/form/TextField";
 import { UserFormType } from "../../form-types/user-form.type";
-import { createForm, valiForm } from "@modular-forms/solid";
+import { createForm, reset, valiForm } from "@modular-forms/solid";
 import { UserValidationSchema } from "../../validations/user/user.validation";
 import { User } from "../../models/user.model";
-import { createEffect } from "solid-js";
 
 export interface UserFormProps {
   user?: User;
   onAdd: (user: User) => void;
+  setUser: (user: User | undefined) => void;
+  onAddNew: (bool: boolean) => void;
 }
 
 export default function UserForm(props: UserFormProps) {
+  var emptyValues = {
+    name: "",
+    nickName: "",
+  };
+
   const [userForm, { Form, Field }] = createForm<UserFormType>({
     validate: valiForm(UserValidationSchema),
     validateOn: "change",
-    initialValues: {
-      name: props.user?.name,
-      nickName: props.user?.nickName,
-    },
   });
 
-  // var onCreate = function (values: UserFormType) {
-  //   var newUser: User = {
-  //     name: values.name,
-  //     nickName: values.nickName,
-  //     id: 0,
-  //     email: "dupa@wp.pl",
-  //     createDate: new Date(),
-  //   };
-
-  //   props.onAdd(newUser!);
-  // };
-
-  createEffect(() => {
-    console.log(props.user);
-  });
   return (
     <>
       <Form onSubmit={(values) => props.onAdd(values as User)}>
         <Field name="name" type="string">
-          {(field, props) => (
+          {(field, properties) => (
             <TextField
               type="text"
               label="Name"
-              value={field.value}
+              value={props.user ? props.user!.name : field.value}
               error={field.error}
               required
-              {...props}
+              {...properties}
             />
           )}
         </Field>
         <Field name="nickName" type="string">
-          {(field, props) => (
+          {(field, properties) => (
             <TextField
-              {...props}
               type="text"
               label="Nickname"
-              value={field.value}
+              value={props.user ? props.user!.nickName : field.value}
               error={field.error}
               required
+              {...properties}
             />
           )}
         </Field>
-        <button type="submit">Create</button>
+        <div class="flex gap-2">
+          <button
+            type="submit"
+            class="bg-green-400 rounded-lg px-2 hover:bg-green-500 w-24"
+          >
+            Create
+          </button>
+          <button
+            onClick={() => {
+              //to refactor 2
+              props.setUser(undefined);
+              props.onAddNew(true);
+              reset(userForm, { initialValues: emptyValues });
+            }}
+            type="button"
+            class="bg-green-400 rounded-lg px-2 hover:bg-green-500 w-24"
+          >
+            Reset
+          </button>
+        </div>
       </Form>
     </>
   );
